@@ -1,0 +1,18 @@
+tfe-go-cli is a command line interface for interacting with
+Terraform Enterprise.
+
+Usage:
+  tfe-go-cli [command]
+
+Available Commands:
+  configure   Configure your TFE credentials
+  help        Help about any command
+  validate    Validate your TFE credentials
+  version     Return tfe-go-cli version
+
+Flags:
+  -c, --config string   config file (default is $HOME/.tgc.yaml)
+  -h, --help            help for tfe-go-cli
+  -v, --verbose         enable verbose output
+
+Use "tfe-go-cli [command] --help" for more information about a command.
