@@ -18,6 +18,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"io"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -30,46 +31,49 @@ var configureCmd = &cobra.Command{
 	Long:  `Prompts for your TFE API credentials, then writes them to
 	a configuration file (defaults to ~/.tgc.yaml`,
 	Run: func(cmd *cobra.Command, args []string) {
-
-		ui := &input.UI{
-			Writer: os.Stdout,
-			Reader: os.Stdin,
-		}
-
-		tfeURL, err := ui.Ask("TFE URL:", &input.Options{
-			Default:  "https://app.terraform.io",
-			Required: true,
-			Loop:     true,
-		})
-		if err != nil {
-			log.Fatal(err)
-		}
-		viper.Set("tfe_url", tfeURL)
-
-		tfeAPIToken, err := ui.Ask(fmt.Sprintf("TFE API Token (Create one at %s/app/settings/tokens)", tfeURL), &input.Options{
-			Default:  	 "",
-			Required: 	 true,
-			Loop:     	 true,
-			Mask:        true,
-			MaskDefault: true,
-		})
-
-		if err != nil {
-			log.Fatal(err)
-		}
-		viper.Set("tfe_api_token", tfeAPIToken)
-
-		configPath := ConfigPath()
-		viper.SetConfigFile(configPath)
-
-		err = viper.WriteConfig()
-
-		if err != nil {
-			log.Fatal("Failed to write to: ", configPath, " Error was: ", err)
-		}
-
-		fmt.Println("Saved to", configPath)
+		CreateConfigFileFromPrompts(os.Stdin, os.Stdout)
 	},
+}
+
+func CreateConfigFileFromPrompts(stdin io.Reader, stdout io.Writer) {
+	ui := &input.UI{
+		Writer: stdout,
+		Reader: stdin,
+	}
+
+	tfeURL, err := ui.Ask("TFE URL:", &input.Options{
+		Default:  "https://app.terraform.io",
+		Required: true,
+		Loop:     true,
+		})
+	if err != nil {
+		log.Fatal(err)
+	}
+	viper.Set("tfe_url", tfeURL)
+
+	tfeAPIToken, err := ui.Ask(fmt.Sprintf("TFE API Token (Create one at %s/app/settings/tokens)", tfeURL), &input.Options{
+		Default:  	 "",
+		Required: 	 true,
+		Loop:     	 true,
+		Mask:        true,
+		MaskDefault: true,
+		})
+
+	if err != nil {
+		log.Fatal(err)
+	}
+	viper.Set("tfe_api_token", tfeAPIToken)
+
+	configPath := ConfigPath()
+	viper.SetConfigFile(configPath)
+
+	err = viper.WriteConfig()
+
+	if err != nil {
+		log.Fatal("Failed to write to: ", configPath, " Error was: ", err)
+	}
+
+	fmt.Println("Saved to", configPath)
 }
 
 func init() {
