@@ -117,6 +117,14 @@
   version = "v1.2.0"
 
 [[projects]]
+  digest = "1:d917313f309bda80d27274d53985bc65651f81a5b66b820749ac7f8ef061fd04"
+  name = "github.com/sergi/go-diff"
+  packages = ["diffmatchpatch"]
+  pruneopts = "UT"
+  revision = "1744e2970ca51c86172c8190fadad617561ed6e7"
+  version = "v1.0.0"
+
+[[projects]]
   digest = "1:d707dbc1330c0ed177d4642d6ae102d5e2c847ebd0eb84562d0dc4f024531cfc"
   name = "github.com/spf13/afero"
   packages = [
@@ -240,6 +248,7 @@
     "github.com/blang/semver",
     "github.com/hashicorp/go-tfe",
     "github.com/mitchellh/go-homedir",
+    "github.com/sergi/go-diff/diffmatchpatch",
     "github.com/spf13/cobra",
     "github.com/spf13/viper",
     "github.com/tcnksm/go-input",
