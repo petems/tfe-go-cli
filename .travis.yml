@@ -13,3 +13,7 @@ sudo: false
 script:
   - make test
   - make int_test
+
+matrix:
+  allow_failures:
+  - go: tip
