@@ -1,3 +1,5 @@
+// +build integration
+
 package main
 
 import (
@@ -10,14 +12,20 @@ import (
   "path/filepath"
   "runtime"
   "testing"
-
   "reflect"
   "github.com/sergi/go-diff/diffmatchpatch"
 )
 
 var update = flag.Bool("update", false, "update golden files")
 
-var binaryName = "tfe-go-cli"
+func tmpFixturePath(t *testing.T) string {
+  _, filename, _, ok := runtime.Caller(0)
+  if !ok {
+    t.Fatalf("problems recovering caller information")
+  }
+
+  return filepath.Join(filepath.Dir(filename), "tmp/")
+}
 
 func fixturePath(t *testing.T, fixture string) string {
   _, filename, _, ok := runtime.Caller(0)
@@ -44,14 +52,26 @@ func loadFixture(t *testing.T, fixture string) string {
   return string(content)
 }
 
+func loadTempFixtureFile(t *testing.T, tempfixturefile string) string {
+  content, err := ioutil.ReadFile(tmpFixturePath(t) + "/" + tempfixturefile)
+  if err != nil {
+    t.Fatal(err)
+  }
+
+  return string(content)
+}
+
+
 func TestCliArgs(t *testing.T) {
   tests := []struct {
+    cmdPath string
     name    string
     args    []string
     fixture string
   }{
-    {"no arguments", []string{}, "no-args.golden"},
-    {"version argument", []string{"version"}, "version.golden"},
+    {"tfe-go-cli-int-testing", "no arguments", []string{}, "no-args.golden"},
+    {"tfe-go-cli-int-testing", "version argument", []string{"version"}, "version.golden"},
+    {"integration/authorize.exp", "authorize command", []string{""}, "authorize.golden"},
   }
 
   for _, tt := range tests {
@@ -61,10 +81,10 @@ func TestCliArgs(t *testing.T) {
         t.Fatal(err)
       }
 
-      cmd := exec.Command(path.Join(dir, binaryName), tt.args...)
+      cmd := exec.Command(path.Join(dir, tt.cmdPath), tt.args...)
       output, err := cmd.CombinedOutput()
       if err != nil {
-        t.Fatal(err)
+        t.Fatal(err, fmt.Sprintf("%s", output))
       }
 
       if *update {
@@ -80,6 +100,20 @@ func TestCliArgs(t *testing.T) {
         diffs := dmp.DiffMain(actual, expected, false)
         t.Errorf("\nGolden file comparison failed!\nDiff is below:\n" + dmp.DiffPrettyText(diffs))
       }
+
+      if tt.name == "authorize command" {
+
+        actual := loadTempFixtureFile(t, "int.yaml")
+
+        expected := loadFixture(t, "config.yaml.golden")
+
+        if !reflect.DeepEqual(actual, expected) {
+          dmp := diffmatchpatch.New()
+          diffs := dmp.DiffMain(actual, expected, false)
+          t.Errorf("\nGolden file comparison failed!\nDiff is below:\n" + dmp.DiffPrettyText(diffs))
+        }
+
+      }
     })
   }
 }
@@ -93,7 +127,13 @@ func TestMain(m *testing.M) {
   make := exec.Command("make", "int_build")
   err = make.Run()
   if err != nil {
-    fmt.Printf("could not make binary for %s: %v", binaryName, err)
+    fmt.Printf("could not make binary for %s: %v", "tfe-go-cli", err)
+    os.Exit(1)
+  }
+
+  expectCmd := exec.Command("expect")
+  if err := expectCmd.Run(); err != nil {
+    fmt.Printf("expect needs to be installed for acceptence tests: %s", err)
     os.Exit(1)
   }
 

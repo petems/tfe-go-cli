@@ -1,0 +1,8 @@
+spawn ./tfe-go-cli-int-testing configure --config ./integration/tmp/int.yaml
+TFE URL:
+Enter a value (Default is https://app.terraform.io): https://tfe.example.com
+
+TFE API Token (Create one at https://tfe.example.com/app/settings/tokens)
+Enter a value: ******
+
+Saved to ./integration/tmp/int.yaml
