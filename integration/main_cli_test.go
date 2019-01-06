@@ -12,6 +12,7 @@ import (
   "testing"
 
   "reflect"
+  "github.com/sergi/go-diff/diffmatchpatch"
 )
 
 var update = flag.Bool("update", false, "update golden files")
@@ -75,7 +76,9 @@ func TestCliArgs(t *testing.T) {
       expected := loadFixture(t, tt.fixture)
 
       if !reflect.DeepEqual(actual, expected) {
-        t.Fatalf("actual = %s, expected = %s", actual, expected)
+        dmp := diffmatchpatch.New()
+        diffs := dmp.DiffMain(actual, expected, false)
+        t.Errorf("\nGolden file comparison failed!\nDiff is below:\n" + dmp.DiffPrettyText(diffs))
       }
     })
   }
