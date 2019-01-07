@@ -5,10 +5,11 @@ Usage:
   tfe-go-cli [command]
 
 Available Commands:
-  configure   Configure your TFE credentials
-  help        Help about any command
-  validate    Validate your TFE credentials
-  version     Return tfe-go-cli version
+  configure     Configure your TFE credentials
+  help          Help about any command
+  organizations List your organizations
+  validate      Validate your TFE credentials
+  version       Return tfe-go-cli version
 
 Flags:
   -c, --config string   config file (default is $HOME/.tgc.yaml)
