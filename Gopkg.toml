@@ -33,6 +33,10 @@
   name = "github.com/hashicorp/go-tfe"
   version = "0.3.5"
 
+[[override]]
+  name = "github.com/svanharmelen/jsonapi"
+  branch = "master"
+
 [[constraint]]
   name = "github.com/mitchellh/go-homedir"
   version = "1.0.0"
