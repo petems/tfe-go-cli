@@ -8,6 +8,10 @@ tfe-go-cli
 
 # Test binary, built with `go test -c`
 *.test
+tfe-go-cli-*
 
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
+
+# tmp/ folder for testing
+integration/tmp/*

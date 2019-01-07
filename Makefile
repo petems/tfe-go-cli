@@ -8,6 +8,9 @@ test:
 int_test:
 	go test integration/*.go
 
+int_update_golden:
+	go test integration/*.go -update
+
 build:
 	go build -ldflags "-X \"cmd.gitCommit=$(GIT_VERSION)\"" \
 		-o "$(GOPATH)/bin/$(CLI_NAME)" \
@@ -15,7 +18,7 @@ build:
 
 int_build:
 	go build -ldflags "-X \"cmd.gitCommit=$(INT_VERSION)\"" \
-		-o "./$(CLI_NAME)" \
+		-o "./$(CLI_NAME)-int-testing" \
 		./main.go
 
 .DEFAULT_GOAL := build

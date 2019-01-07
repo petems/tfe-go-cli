@@ -13,6 +13,13 @@ script:
   - make test
   - make int_test
 
+before_install:
+  - sudo apt-get install -y expect
+
+addons:
+  apt:
+    update: true
+
 matrix:
   allow_failures:
   - go: tip
