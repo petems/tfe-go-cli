@@ -116,7 +116,7 @@
   revision = "c01d1270ff3e442a8a57cddc1c92dc1138598194"
   version = "v1.2.0"
 
-[[projects]]>
+[[projects]]
   digest = "1:d917313f309bda80d27274d53985bc65651f81a5b66b820749ac7f8ef061fd04"
   name = "github.com/sergi/go-diff"
   packages = ["diffmatchpatch"]
@@ -176,12 +176,12 @@
   version = "v1.3.1"
 
 [[projects]]
-  digest = "1:a712b5079fa7fd942a077341757265836063980331c0186360d463d61ffa2223"
+  branch = "master"
+  digest = "1:6ac3397664e2da16faa53c940396d8c258cd5e3ccb4ddbb18bee8ace2b203bbd"
   name = "github.com/svanharmelen/jsonapi"
   packages = ["."]
   pruneopts = "UT"
-  revision = "46d3ced0434461be12e555852e2f1a9ed382e139"
-  version = "1.0.0"
+  revision = "0c0828c3f16d3732cc7edecf49934d95550894e7"
 
 [[projects]]
   branch = "master"
@@ -197,18 +197,18 @@
   name = "golang.org/x/crypto"
   packages = ["ssh/terminal"]
   pruneopts = "UT"
-  revision = "505ab145d0a99da450461ae2c1a9f6cd10d1f447"
+  revision = "ff983b9c42bc9fbf91556e191cc8efb585c16908"
 
 [[projects]]
   branch = "master"
-  digest = "1:10405139b45e3a97a3842c93984710e30466eb933545f219ad3f5e45246973b4"
+  digest = "1:c4f2af053602f247b8625846cd88dfbf9295e3d02e82c58c27ebe3be06bef80c"
   name = "golang.org/x/sys"
   packages = [
     "unix",
     "windows",
   ]
   pruneopts = "UT"
-  revision = "9a3f9b0469bbc6b8802087ae5c0af9f61502de01"
+  revision = "cb59ee3660675d463e86971646692ea3e470021c"
 
 [[projects]]
   digest = "1:8029e9743749d4be5bc9f7d42ea1659471767860f0cdc34d37c3111bd308a295"
