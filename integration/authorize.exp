@@ -52,17 +52,5 @@ expect -exact "https://tfe.example.com\r
 \r
 TFE API Token (Create one at https://tfe.example.com/app/settings/tokens)\r
 Enter a value: "
-send -- "a"
-expect -exact "*"
-send -- "b"
-expect -exact "*"
-send -- "c"
-expect -exact "*"
-send -- "1"
-expect -exact "*"
-send -- "2"
-expect -exact "*"
-send -- "3"
-expect -exact "*"
-send -- "\r"
+send -- "abc123\r"
 expect eof
